@@ -3,8 +3,7 @@ document.write(`
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/mdui/0.4.3/js/mdui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script>
-`
-);
+`);
 
 document.write(
   "<style>.mdui-appbar .mdui-toolbar{height:56px;font-size:1pc}.mdui-toolbar>*{padding:0 6px;margin:0 2px}.mdui-toolbar>i{opacity:.5}.mdui-toolbar>.mdui-typo-headline{padding:0 1pc 0 0}.mdui-toolbar>i{padding:0}.mdui-toolbar>a:hover,a.active,a.mdui-typo-headline{opacity:1}.mdui-container{max-width:980px}.mdui-list-item{transition:none}.mdui-list>.th{background-color:initial}.mdui-list-item>a{width:100%;line-height:3pc}.mdui-list-item{margin:2px 0;padding:0}.mdui-toolbar>a:last-child{opacity:1}@media screen and (max-width:980px){.mdui-list-item .mdui-col-sm-3{display:none}.mdui-container{width:100%!important;margin:0}.mdui-toolbar>.mdui-typo-headline,.mdui-toolbar>a:last-child,.mdui-toolbar>i:first-child{display:block}}</style>"
@@ -791,75 +790,37 @@ function copyToClipboard(str) {
   document.execCommand("copy");
   $temp.remove();
 }
+
 // Document display video |mp4|webm|avi|
-function file_video(path) {
+const file_video = path => {
   const url = window.location.origin + path;
-  let player_items = [
-    {
-      text: "MPV",
-      href: `mpv://${url}`
-    },
-    {
-      text: "MXPlayer(Free)",
-      href: `intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${path};end`
-    },
-    {
-      text: "MXPlayer(Pro)",
-      href: `intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${path};end`
-    },
-    {
-      text: "nPlayer",
-      href: `nplayer-${url}`
-    },
-    {
-      text: "VLC",
-      href: `vlc://${url}`
-    },
-    {
-      text: "PotPlayer",
-      href: `potplayer://${url}`
-    }
-  ]
-    .map(
-      it =>
-        `<li class="mdui-menu-item"><a href="${it.href}" class="mdui-ripple">${it.text}</a></li>`
-    )
-    .join("");
-  player_items += `<li class="mdui-divider"></li>
-                   <li class="mdui-menu-item"><a id="copy-link" class="mdui-ripple">Copy Link</a></li>`;
-  const playBtn = `
-      <button class="mdui-btn mdui-ripple mdui-color-theme" mdui-menu="{target:'#player-items'}">
-        <i class="mdui-icon material-icons">&#xe039;</i>Play From External Player<i class="mdui-icon material-icons">&#xe5cf;</i>
-      </button>
-
-      <ul class="mdui-menu" id="player-items">${player_items}</ul>`;
-
   const content = `
-
 <div class="mdui-container-fluid">
 	<br>
 	<video class="mdui-video-fluid mdui-center" preload controls>
 	  <source src="${url}" type="video/mp4">
 	</video>
-	<br>${playBtn}
-	<!-- Fixed label -->
-	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">Download Link</label>
-	  <input class="mdui-textfield-input" type="text" readonly value="${url}"/>
-	</div>
-	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">HTML Refrence Adress</label>
-	  <textarea class="mdui-textfield-input" readonly><video><source src="${url}" type="video/mp4"></video></textarea>
-	</div>
+  <br>
+  <div>
+    <a class="mdui-btn mdui-ripple mdui-color-theme-accent" href="mpv://${url}">
+      <i class="mdui-icon material-icons">play_circle_outline</i> mpv
+    </a>
+    <a class="mdui-btn mdui-ripple mdui-color-theme-accent" href="intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${path};end">
+      <i class="mdui-icon material-icons">play_circle_outline</i> mx player
+    </a>
+    <a class="mdui-btn mdui-ripple mdui-color-theme-accent mdui-float-right" id="copy-link">
+      <i class="mdui-icon material-icons">content_copy</i> copy link
+    </a>
+  </div>
 </div>
-<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme"><i class="mdui-icon material-icons">file_download</i></a>
-	`;
+<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
+`;
   $("#content").html(content);
   $("#copy-link").on("click", () => {
     copyToClipboard(url);
     mdui.snackbar("Copied To Clipboard!");
   });
-}
+};
 
 // File display Audio |mp3|flac|m4a|wav|ogg|
 function file_audio(path) {
@@ -1087,18 +1048,5 @@ window.onpopstate = function () {
 $(function () {
   init();
   var path = window.location.pathname;
-  /*$("body").on("click", '.folder', function () {
-      var url = $(this).attr('href');
-      history.pushState(null, null, url);
-      render(url);
-      return false;
-  });
-  $("body").on("click", '.view', function () {
-      var url = $(this).attr('href');
-      history.pushState(null, null, url);
-      render(url);
-      return false;
-  });*/
-
   render(path);
 });
