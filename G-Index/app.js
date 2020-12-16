@@ -805,6 +805,9 @@ const file_video = path => {
     <a class="mdui-btn mdui-ripple mdui-color-theme-accent" href="mpv://${url}">
       <i class="mdui-icon material-icons">play_circle_outline</i> mpv
     </a>
+    <a class="mdui-btn mdui-ripple mdui-color-theme-accent" href="nplayer-${url}">
+      <i class="mdui-icon material-icons">play_circle_outline</i> nplayer
+    </a>
     <a class="mdui-btn mdui-ripple mdui-color-theme-accent" href="potplayer://${url}">
       <i class="mdui-icon material-icons">play_circle_outline</i> Potplayer
     </a>
