@@ -24,7 +24,7 @@ var authConfig = {
   // It is possible to set only the password, only the user name, and the user name and password at the same time
   roots: [
     {
-      id: "0AF59fCgGLgsyUk9PVA",
+      id: "",
       name: "GD",
       user: "",
       pass: ""
